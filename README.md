@@ -1,4 +1,4 @@
-# screenshot_callback
+# Screenshot_callback
 
 A new flutter plugin project.
 
