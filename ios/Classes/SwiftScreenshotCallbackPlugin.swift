@@ -2,8 +2,10 @@ import Flutter
 import UIKit
 
 public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
+  var channel: FlutterMethodChannel? = nil
+
   public static func register(with registrar: FlutterPluginRegistrar) {
-    let channel = FlutterMethodChannel(name: "screenshot_callback", binaryMessenger: registrar.messenger())
+    channel = FlutterMethodChannel(name: "screenshot_callback", binaryMessenger: registrar.messenger())
     let instance = SwiftScreenshotCallbackPlugin()
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
@@ -17,7 +19,13 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
           object: nil,
           queue: .main) { notification in
           print("iOS 스크린샷 콜백함수 호출")
-              //executes after screenshot
+          result("screen shot called")
+
+          if let channel = channel {
+            channel.invokeMethod("onCallback", arguments: args, result: {(r:Any?) -> () in
+
+                      })
+          }
       }
     }else if(call.method == "dispose"){
       result("dispose")
@@ -26,7 +34,5 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
     }
   }
 
-  // channel.invokeMethod("onCallback", arguments: args, result: {(r:Any?) -> () in
-  //   // this will be called with r = "some string" (or FlutterMethodNotImplemented)
-  // })
+
 }
