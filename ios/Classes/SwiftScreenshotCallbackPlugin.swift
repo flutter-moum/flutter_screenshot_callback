@@ -10,8 +10,17 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     if(call.method == "initialize"){
+      print("iOS screenshotcallback initialized")
       result("initialize")
+      NotificationCenter.default.addObserver(
+          forName: NSNotification.Name.UIApplicationUserDidTakeScreenshot,
+          object: nil,
+          queue: .main) { notification in
+          print("iOS 스크린샷 콜백함수 호출")
+              //executes after screenshot
+      }
     }else if(call.method == "dispose"){
+      print("dispose")
       result("dispose")
     }else{
       result("")

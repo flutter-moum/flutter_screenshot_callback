@@ -17,6 +17,7 @@ public class FileObserverImpl extends FileObserver {
             Log.d(TAG, "onEvent");
 
         } else if (event == FileObserver.CLOSE_WRITE) {
+            
             Log.d(TAG, "close_write");
         }
 
