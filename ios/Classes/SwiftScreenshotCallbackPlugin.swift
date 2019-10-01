@@ -20,7 +20,6 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
               //executes after screenshot
       }
     }else if(call.method == "dispose"){
-      print("dispose")
       result("dispose")
     }else{
       result("")
