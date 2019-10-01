@@ -17,4 +17,8 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
       result("")
     }
   }
+
+  // channel.invokeMethod("onCallback", arguments: args, result: {(r:Any?) -> () in
+  //   // this will be called with r = "some string" (or FlutterMethodNotImplemented)
+  // })
 }

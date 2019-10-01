@@ -15,6 +15,7 @@ class ScreenshotCallback {
   }
 
   Future<void> initialize() async {
+    _channel.setMethodCallHandler(_handleMethod);
     await _channel.invokeMethod("initialize");
   }
 
@@ -23,7 +24,7 @@ class ScreenshotCallback {
     onCallbacks.add(callback);
   }
 
-  void _handleMethod(MethodCall call) {
+  Future<dynamic> _handleMethod(MethodCall call) async {
     switch (call.method) {
       case 'onCallback':
         for (var callback in onCallbacks) callback();
