@@ -25,7 +25,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
     final MethodChannel channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
     channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
 
-    fileObserver = new FileObserverImpl(absolutePath, FileObserver.CREATE, );
+    fileObserver = new FileObserverImpl(absolutePath, FileObserver.CREATE);
 
     // registrar.activeContext().registerReceiver(fileObserver);
   }
