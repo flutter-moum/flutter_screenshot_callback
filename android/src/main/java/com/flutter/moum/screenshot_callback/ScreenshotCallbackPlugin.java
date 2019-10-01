@@ -42,4 +42,17 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
 
     }
   }
+
+  // channel.invokeMethod("onCallback", arguments, new Result() {
+  //   @Override
+  //   public void success(Object o) {
+  //     // this will be called with o = "some string"
+  //   }
+  
+  //   @Override
+  //   public void error(String s, String s1, Object o) {}
+  
+  //   @Override
+  //   public void notImplemented() {}
+  // });
 }
