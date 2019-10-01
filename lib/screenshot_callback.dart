@@ -8,14 +8,19 @@ class ScreenshotCallback {
   static const MethodChannel _channel =
       const MethodChannel('screenshot_callback');
 
-  List<VoidCallback> onCallbacks;
+  List<VoidCallback> onCallbacks = [];
 
-  Future<void> addListener(VoidCallback callback) async {
-    if (callback == null) throw ("No Callback!");
+  ScreenshotCallback() {
+    initialize();
+  }
 
-    onCallbacks.add(callback);
-
+  Future<void> initialize() async {
     await _channel.invokeMethod("initialize");
+  }
+
+  void addListener(VoidCallback callback) {
+    if (callback == null) throw ("No Callback!");
+    onCallbacks.add(callback);
   }
 
   void _handleMethod(MethodCall call) {
@@ -30,10 +35,5 @@ class ScreenshotCallback {
 
   Future<void> dispose() async {
     await _channel.invokeMethod("dispose");
-  }
-
-  static Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
-    return version;
   }
 }
