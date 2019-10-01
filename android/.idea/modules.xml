@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/flutter_screenshot_callback.iml" filepath="$PROJECT_DIR$/flutter_screenshot_callback.iml" />
+      <module fileurl="file://$PROJECT_DIR$/screenshot_callback.iml" filepath="$PROJECT_DIR$/screenshot_callback.iml" />
     </modules>
   </component>
 </project>
