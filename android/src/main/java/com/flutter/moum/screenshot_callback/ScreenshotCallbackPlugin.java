@@ -13,27 +13,18 @@ import android.util.Log;
 import android.os.Handler;
 import android.os.Looper;
 
-/** ScreenshotCallbackPlugin */
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
   private static final String TAG = "ScreenshotCallbackPlugin";
   private static final String absolutePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + File.separator + "Screenshots" + File.separator;
-  // + File.separator
-      // + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots" + File.separator;
-  // private static final String absolutePath =
-  // Environment.getRootDirectory().getPath();
   private Handler handler;
   private FileObserver fileObserver;
 
   private static MethodChannel channel;
 
-  /** Plugin registration. */
   public static void registerWith(Registrar registrar) {
     channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
     channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
   }
-
-  
-    
 
   @Override
   public void onMethodCall(MethodCall call, Result result) {
@@ -43,6 +34,8 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
         @Override
         public void onEvent(int event, String path) {
             if (event == FileObserver.CREATE) {
+
+              // use Handler to execute invokeMethod in UIThread
               handler.post(new Runnable() {
                 @Override
                 public void run() {
