@@ -14,11 +14,17 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   ScreenshotCallback screenshotCallback = ScreenshotCallback();
 
+  String text = "ready";
+
   @override
   void initState() {
     super.initState();
 
-    screenshotCallback.addListener(() {});
+    screenshotCallback.addListener(() {
+      setState(() {
+        text = "callback!";
+      });
+    });
   }
 
   @override
@@ -35,7 +41,7 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app'),
         ),
         body: Center(
-          child: Text('Running'),
+          child: Text(text),
         ),
       ),
     );
