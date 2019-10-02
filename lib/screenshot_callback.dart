@@ -8,8 +8,7 @@ class ScreenshotCallback {
   static const MethodChannel _channel =
       const MethodChannel('screenshot_callback');
 
-  List<VoidCallback> onCallbacks
-  = [];
+  List<VoidCallback> onCallbacks = [];
 
   ScreenshotCallback() {
     initialize();
