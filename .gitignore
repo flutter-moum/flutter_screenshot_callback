@@ -6,3 +6,6 @@
 
 build/
 .idea
+.gradle
+.project
+.settings
