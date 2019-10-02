@@ -11,6 +11,7 @@ import android.os.FileObserver;
 import java.io.File;
 import android.util.Log;
 import android.os.Handler;
+import android.os.Looper;
 
 /** ScreenshotCallbackPlugin */
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
@@ -20,7 +21,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
       // + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots" + File.separator;
   // private static final String absolutePath =
   // Environment.getRootDirectory().getPath();
-  private Hanler hanlder;
+  private Handler handler;
   private FileObserver fileObserver;
 
   private static MethodChannel channel;
@@ -37,7 +38,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
   @Override
   public void onMethodCall(MethodCall call, Result result) {
     if (call.method.equals("initialize")) {
-      handler = new (Looper.getMainLooper());
+      handler = new Handler(Looper.getMainLooper());
       fileObserver = new FileObserver(absolutePath, FileObserver.CREATE){
         @Override
         public void onEvent(int event, String path) {
@@ -45,7 +46,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
               handler.post(new Runnable() {
                 @Override
                 public void run() {
-                  channeHandlerl.invokeMethod("onCallback", null);
+                  channel.invokeMethod("onCallback", null);
                 }
               });
                 
