@@ -10,29 +10,43 @@ import android.os.Environment;
 import android.os.FileObserver;
 import java.io.File;
 import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 
-/** ScreenshotCallbackPlugin */
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
   private static final String TAG = "ScreenshotCallbackPlugin";
-  private static final String absolutePath = Environment.getExternalStorageDirectory() + File.separator
-      + Environment.DIRECTORY_PICTURES + File.separator + "Screenshots" + File.separator;
-  // private static final String absolutePath =
-  // Environment.getRootDirectory().getPath();
-  private static FileObserver fileObserver;
+  private static final String absolutePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + File.separator + "Screenshots" + File.separator;
+  private Handler handler;
+  private FileObserver fileObserver;
 
-  /** Plugin registration. */
+  private static MethodChannel channel;
+
   public static void registerWith(Registrar registrar) {
-    final MethodChannel channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
+    channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
     channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
-
-    fileObserver = new FileObserverImpl(absolutePath, FileObserver.CREATE);
-
-    // registrar.activeContext().registerReceiver(fileObserver);
   }
 
   @Override
   public void onMethodCall(MethodCall call, Result result) {
     if (call.method.equals("initialize")) {
+      handler = new Handler(Looper.getMainLooper());
+      fileObserver = new FileObserver(absolutePath, FileObserver.CREATE){
+        @Override
+        public void onEvent(int event, String path) {
+            if (event == FileObserver.CREATE) {
+
+              // use Handler to execute invokeMethod in UIThread
+              handler.post(new Runnable() {
+                @Override
+                public void run() {
+                  channel.invokeMethod("onCallback", null);
+                }
+              });
+                
+              Log.d(TAG, "create screenshot file");
+            }
+        }
+      };
       Log.d(TAG, "initialize: service is initialized");
       Log.d(TAG, absolutePath);
       fileObserver.startWatching();
@@ -41,23 +55,9 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
     } else if (call.method.equals("dispose")) {
       Log.d(TAG, "dispose: service is destroyed");
       fileObserver.stopWatching();
-      // registrar.activeContext().unregisterReceiver(fileObserver);
       result.success("dispose");
     } else {
       result.notImplemented();
     }
   }
-
-  // channel.invokeMethod("onCallback", arguments, new Result() {
-  // @Override
-  // public void success(Object o) {
-  // // this will be called with o = "some string"
-  // }
-
-  // @Override
-  // public void error(String s, String s1, Object o) {}
-
-  // @Override
-  // public void notImplemented() {}
-  // });
 }
