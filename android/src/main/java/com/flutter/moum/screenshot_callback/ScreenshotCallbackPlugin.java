@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.os.Looper;
 
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
-  private static final String TAG = "ScreenshotCallbackPlugin";
   private static final String absolutePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + File.separator + "Screenshots" + File.separator;
   private Handler handler;
   private FileObserver fileObserver;
@@ -42,18 +41,13 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
                   channel.invokeMethod("onCallback", null);
                 }
               });
-                
-              Log.d(TAG, "create screenshot file");
             }
         }
       };
-      Log.d(TAG, "initialize: service is initialized");
-      Log.d(TAG, absolutePath);
       fileObserver.startWatching();
       result.success("initialize");
 
     } else if (call.method.equals("dispose")) {
-      Log.d(TAG, "dispose: service is destroyed");
       fileObserver.stopWatching();
       result.success("dispose");
     } else {
