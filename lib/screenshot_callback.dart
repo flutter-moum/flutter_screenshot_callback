@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
-import 'package:meta/meta.dart';
 
 class ScreenshotCallback {
   static const MethodChannel _channel =
