@@ -33,6 +33,8 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
       result("")
     }
   }
-
-
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
