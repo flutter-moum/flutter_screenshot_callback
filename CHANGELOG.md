@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.0.1-alpha0
 
-* TODO: Describe initial release.
+enable to detect screenshot on iOS and Android! 😀
