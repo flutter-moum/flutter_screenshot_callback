@@ -1,5 +1,7 @@
 ## screenshot_callback
 
+[![pub package](https://img.shields.io/pub/v/screenshot_callback.svg)](https://pub.dartlang.org/packages/screenshot_callback)
+
 A Flutter plugin for iOS and Android for detecting screenshot.
 
 *Note*: This plugin is still under development, and we will add features such as importing screenshot image. [Feedback welcome](https://github.com/flutter-moum/flutter_screenshot_callback/issues/new) and [Pull Requests](https://github.com/flutter-moum/flutter_screenshot_callback/pulls) are most welcome!
