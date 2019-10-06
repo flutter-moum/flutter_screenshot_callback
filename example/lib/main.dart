@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-
-import 'package:flutter/services.dart';
 import 'package:screenshot_callback/screenshot_callback.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(MyApp());
 
@@ -12,19 +10,45 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ScreenshotCallback screenshotCallback = ScreenshotCallback();
+  ScreenshotCallback screenshotCallback;
 
-  String text = "ready";
+  String text = "Ready..";
 
   @override
   void initState() {
     super.initState();
 
+    init();
+  }
+
+  void init() async {
+    await checkPermission();
+    await initScreenshotCallback();
+  }
+
+
+  //This should be executed after granted permission
+  Future<void> initScreenshotCallback() async {
+    screenshotCallback = ScreenshotCallback();
+
     screenshotCallback.addListener(() {
       setState(() {
-        text = "callback!";
+        text = "Screenshot callback Fired!";
       });
     });
+
+    screenshotCallback.addListener(() {
+      print("We can add multiple listeners ");
+    });
+  }
+
+  Future<void> checkPermission() async {
+    PermissionStatus status = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+
+    if (status != PermissionStatus.granted) {
+      await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    }
   }
 
   @override
@@ -38,10 +62,13 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Plugin example app'),
+          title: const Text('Detect Screenshot Callback Example'),
         ),
         body: Center(
-          child: Text(text),
+          child: Text(text,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              )),
         ),
       ),
     );

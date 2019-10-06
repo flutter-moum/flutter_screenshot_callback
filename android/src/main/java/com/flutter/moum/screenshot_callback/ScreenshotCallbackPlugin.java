@@ -15,9 +15,10 @@ import android.os.Looper;
 
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
   private static final String SCREENSHOT_PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + File.separator + "Screenshots" + File.separator;
+  private static MethodChannel channel;
+
   private Handler handler;
   private FileObserver fileObserver;
-  private static MethodChannel channel;
 
   public static void registerWith(Registrar registrar) {
     channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
