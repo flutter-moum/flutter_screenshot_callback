@@ -28,7 +28,7 @@ class _MyAppState extends State<MyApp> {
     await initScreenshotCallback();
   }
 
-  //This should be executed after granted permission
+  //It must be created after permission is granted.
   Future<void> initScreenshotCallback() async {
     screenshotCallback = ScreenshotCallback();
 

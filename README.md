@@ -29,6 +29,7 @@ import 'package:screenshot_callback/screenshot_callback.dart';
 ```
 
 Initialize ScreenshotCallback with the scopes you want:
+> !!! It must be created after permission is granted. (Android only)
 
 ```dart
 ScreenshotCallback screenshotCallback = ScreenshotCallback();
