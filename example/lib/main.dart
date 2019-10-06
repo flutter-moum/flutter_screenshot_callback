@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:screenshot_callback/screenshot_callback.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -22,10 +24,9 @@ class _MyAppState extends State<MyApp> {
   }
 
   void init() async {
-    await checkPermission();
+    if (Platform.isAndroid) await checkPermission();
     await initScreenshotCallback();
   }
-
 
   //This should be executed after granted permission
   Future<void> initScreenshotCallback() async {
