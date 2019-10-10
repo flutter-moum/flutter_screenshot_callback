@@ -6,11 +6,14 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+import android.os.Environment;
 import android.os.FileObserver;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
+
+import java.io.File;
 
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
   private static MethodChannel channel;
@@ -18,9 +21,9 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
   private Handler handler;
   private FileObserver fileObserver;
   private String TAG = "tag";
+  private static String PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES ) + File.separator + "Screenshots" + File.separator;
 
   public static void registerWith(Registrar registrar) {
-    Log.d("flutter", "onMethodCall1");
     channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
     channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
   }
@@ -29,8 +32,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
   public void onMethodCall(MethodCall call, Result result) {
     if (call.method.equals("initialize")) {
       handler = new Handler(Looper.getMainLooper());
-
-      for(PATH path : PATH.values()){
+      for(Path path : Path.values()){
         fileObserver = new FileObserver(path.getPath(), FileObserver.CREATE) {
           @Override
           public void onEvent(int event, String path) {
