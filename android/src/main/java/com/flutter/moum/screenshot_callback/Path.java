@@ -4,7 +4,7 @@ import android.os.Environment;
 
 import java.io.File;
 
-public enum PATH {
+public enum Path {
     DCIM(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + File.separator + "Screenshots" + File.separator),
     PICTURES(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES ) + File.separator + "Screenshots" + File.separator);
 
@@ -14,7 +14,7 @@ public enum PATH {
         return path;
     }
 
-    private PATH(String path) {
+    private Path(String path) {
         this. path = path;
 
     }

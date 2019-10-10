@@ -21,7 +21,6 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
   private Handler handler;
   private FileObserver fileObserver;
   private String TAG = "tag";
-  private static String PATH = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES ) + File.separator + "Screenshots" + File.separator;
 
   public static void registerWith(Registrar registrar) {
     channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
