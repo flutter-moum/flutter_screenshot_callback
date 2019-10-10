@@ -1,3 +1,6 @@
+## 0.1.0
+- fix serveral android phone's screenshot callback detect path.
+
 ## 0.0.2
 - update readme
 
