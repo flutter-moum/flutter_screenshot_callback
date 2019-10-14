@@ -2,7 +2,7 @@
 <h4 align="center">
   Flutter plugin that allows you to detect mobile screenshot and execute callback functions on iOS and Android. 🚀
 </h4>
-<br/>
+
 <div align="center">
   <a href="https://pub.dartlang.org/packages/screenshot_callback">
     <img src="https://img.shields.io/pub/v/screenshot_callback.svg" />
@@ -75,10 +75,10 @@ Please [**file**](https://github.com/flutter-moum/flutter_screenshot_callback/is
 
 ## Author
 
-- [Gwangyu-Kim](https://github.com/kwanguuuu) <kwangyu326@gmail.com>
-- [minsub0922](https://github.com/minsub0922) <minsub0922@naver.com>
-- [beygee](https://github.com/beygee) <doug0476@naver.com>
-- Flutter Moum <fluttermoum@gmail.com>
+- [Gwangyu-Kim](https://github.com/kwanguuuu) • <kwangyu326@gmail.com>
+- [minsub0922](https://github.com/minsub0922) • <minsub0922@naver.com>
+- [beygee](https://github.com/beygee) • <doug0476@naver.com>
+- [Flutter Moum](https://github.com/flutter-moum) • <fluttermoum@gmail.com>
 
 ## License
 
