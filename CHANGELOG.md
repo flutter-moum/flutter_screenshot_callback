@@ -1,3 +1,6 @@
+## 1.0.0
+- update README.md to add Android integration guide. (READ_EXTERNAL_STORAGE permission)
+
 ## 0.1.0
 - fix serveral android phone's screenshot callback detect path.
 

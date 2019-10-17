@@ -29,6 +29,13 @@ To use this plugin, follow the [**plugin installation instructions**](https://pu
 
 Android detects external storage to determine if a screenshot has occurred. So you need permission to external storage. Use the [**following links**](https://pub.dev/packages/permission) if necessary.
 
+Specify your API key in the application manifest
+`android/app/src/main/AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+```
+
 ### iOS
 
 No action is required. Screenshots can be detected by the plug-in itself.
