@@ -23,6 +23,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
     private FileObserver fileObserver;
     private String TAG = "tag";
 
+
     public static void registerWith(Registrar registrar) {
         channel = new MethodChannel(registrar.messenger(), "flutter.moum/screenshot_callback");
         channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
@@ -30,6 +31,8 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
 
     @Override
     public void onMethodCall(MethodCall call, Result result) {
+        Log.d(TAG, "onMethodCall: ");
+
         if (call.method.equals("initialize")) {
             handler = new Handler(Looper.getMainLooper());
             if (Build.VERSION.SDK_INT >= 29) {
@@ -53,9 +56,11 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
                         }
                     }
                 };
+                fileObserver.startWatching();
             } else {
                 Log.d(TAG, "android others");
                 for (Path path : Path.values()) {
+                    Log.d(TAG, "onMethodCall: "+path.getPath());
                     fileObserver = new FileObserver(path.getPath(), FileObserver.CREATE) {
                         @Override
                         public void onEvent(int event, String path) {
@@ -70,9 +75,9 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
                             }
                         }
                     };
+                    fileObserver.startWatching();
                 }
             }
-            fileObserver.startWatching();
             result.success("initialize");
         } else if (call.method.equals("dispose")) {
             fileObserver.stopWatching();
