@@ -7,7 +7,6 @@ import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
 import android.os.Build;
-import android.os.Environment;
 import android.os.FileObserver;
 
 import android.os.Handler;
@@ -16,7 +15,6 @@ import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
 
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
     private static MethodChannel channel;
