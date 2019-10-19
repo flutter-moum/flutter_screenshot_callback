@@ -24,7 +24,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
     private String TAG = "tag";
 
     public static void registerWith(Registrar registrar) {
-        channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
+        channel = new MethodChannel(registrar.messenger(), "flutter.moum/screenshot_callback");
         channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
     }
 

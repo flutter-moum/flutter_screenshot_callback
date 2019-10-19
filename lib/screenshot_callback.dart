@@ -1,11 +1,13 @@
+import 'dart:io';
 import 'dart:async';
 
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class ScreenshotCallback {
   static const MethodChannel _channel =
-      const MethodChannel('screenshot_callback');
+      const MethodChannel('flutter.moum/screenshot_callback');
 
   List<VoidCallback> onCallbacks = [];
 
@@ -14,6 +16,7 @@ class ScreenshotCallback {
   }
 
   Future<void> initialize() async {
+    if (Platform.isAndroid) await checkPermission();
     _channel.setMethodCallHandler(_handleMethod);
     await _channel.invokeMethod("initialize");
   }
@@ -35,5 +38,14 @@ class ScreenshotCallback {
 
   Future<void> dispose() async {
     await _channel.invokeMethod("dispose");
+  }
+
+  Future<void> checkPermission() async {
+    PermissionStatus status = await PermissionHandler()
+        .checkPermissionStatus(PermissionGroup.storage);
+
+    if (status != PermissionStatus.granted) {
+      await PermissionHandler().requestPermissions([PermissionGroup.storage]);
+    }
   }
 }
