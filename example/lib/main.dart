@@ -1,8 +1,5 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:screenshot_callback/screenshot_callback.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,8 +21,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   void init() async {
-    if (Platform.isAndroid) await checkPermission();
     await initScreenshotCallback();
+
   }
 
   //It must be created after permission is granted.
@@ -41,15 +38,6 @@ class _MyAppState extends State<MyApp> {
     screenshotCallback.addListener(() {
       print("We can add multiple listeners ");
     });
-  }
-
-  Future<void> checkPermission() async {
-    PermissionStatus status = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
-
-    if (status != PermissionStatus.granted) {
-      await PermissionHandler().requestPermissions([PermissionGroup.storage]);
-    }
   }
 
   @override

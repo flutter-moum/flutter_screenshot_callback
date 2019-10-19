@@ -5,7 +5,7 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
   static var channel: FlutterMethodChannel?
 
   public static func register(with registrar: FlutterPluginRegistrar) {
-    channel  = FlutterMethodChannel(name: "screenshot_callback", binaryMessenger: registrar.messenger())
+    channel  = FlutterMethodChannel(name: "flutter.moum/screenshot_callback", binaryMessenger: registrar.messenger())
 
     let instance = SwiftScreenshotCallbackPlugin()
     if let channel = channel {
