@@ -17,28 +17,13 @@
   <a href="#license">License</a>
 </p>
 
-> _Note_: This plugin is still under development, and we will add features such as importing screenshot image. [Feedback welcome](https://github.com/flutter-moum/flutter_screenshot_callback/issues/new) and [Pull Requests](https://github.com/flutter-moum/flutter_screenshot_callback/pulls) are most welcome!
+> [Feedback welcome](https://github.com/flutter-moum/flutter_screenshot_callback/issues/new) and [Pull Requests](https://github.com/flutter-moum/flutter_screenshot_callback/pulls) are most welcome!
 
 ## Usage
 
 ### Import the package
 
 To use this plugin, follow the [**plugin installation instructions**](https://pub.dev/packages/screenshot_callback#-installing-tab-).
-
-### Android
-
-Android detects external storage to determine if a screenshot has occurred. So you need permission to external storage. Use the [**following links**](https://pub.dev/packages/permission) if necessary.
-
-Specify your API key in the application manifest
-`android/app/src/main/AndroidManifest.xml`:
-
-```xml
-<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-```
-
-### iOS
-
-No action is required. Screenshots can be detected by the plug-in itself.
 
 ### Use the plugin
 
@@ -49,8 +34,6 @@ import 'package:screenshot_callback/screenshot_callback.dart';
 ```
 
 Initialize ScreenshotCallback with the scopes you want:
-
-> !!! It must be created after permission is granted. (Android only)
 
 ```dart
 ScreenshotCallback screenshotCallback = ScreenshotCallback();
