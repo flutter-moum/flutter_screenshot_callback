@@ -6,6 +6,7 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 
+import android.os.Build;
 import android.os.Environment;
 import android.os.FileObserver;
 
@@ -14,46 +15,72 @@ import android.os.Looper;
 import android.util.Log;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
-  private static MethodChannel channel;
+    private static MethodChannel channel;
 
-  private Handler handler;
-  private FileObserver fileObserver;
-  private String TAG = "tag";
+    private Handler handler;
+    private FileObserver fileObserver;
+    private String TAG = "tag";
 
-  public static void registerWith(Registrar registrar) {
-    channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
-    channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
-  }
-
-  @Override
-  public void onMethodCall(MethodCall call, Result result) {
-    if (call.method.equals("initialize")) {
-      handler = new Handler(Looper.getMainLooper());
-      for(Path path : Path.values()){
-        fileObserver = new FileObserver(path.getPath(), FileObserver.CREATE) {
-          @Override
-          public void onEvent(int event, String path) {
-            Log.d(TAG,"onEvent");
-            if (event == FileObserver.CREATE) {
-              handler.post(new Runnable() {
-                @Override
-                public void run() {
-                  channel.invokeMethod("onCallback", null);
-                }
-              });
-            }
-          }
-        };
-        fileObserver.startWatching();
-      }
-      result.success("initialize");
-    } else if (call.method.equals("dispose")) {
-      fileObserver.stopWatching();
-      result.success("dispose");
-    } else {
-      result.notImplemented();
+    public static void registerWith(Registrar registrar) {
+        channel = new MethodChannel(registrar.messenger(), "screenshot_callback");
+        channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
     }
-  }
+
+    @Override
+    public void onMethodCall(MethodCall call, Result result) {
+        if (call.method.equals("initialize")) {
+            handler = new Handler(Looper.getMainLooper());
+            if (Build.VERSION.SDK_INT >= 29) {
+                Log.d(TAG, "android x");
+                ArrayList<File> files = new ArrayList<File>();
+                for (Path path : Path.values()) {
+                    files.add(new File(path.getPath()));
+                }
+
+                fileObserver = new FileObserver(files, FileObserver.CREATE) {
+                    @Override
+                    public void onEvent(int event, String path) {
+                        Log.d(TAG, "androidX onEvent");
+                        if (event == FileObserver.CREATE) {
+                            handler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    channel.invokeMethod("onCallback", null);
+                                }
+                            });
+                        }
+                    }
+                };
+            } else {
+                Log.d(TAG, "android others");
+                for (Path path : Path.values()) {
+                    fileObserver = new FileObserver(path.getPath(), FileObserver.CREATE) {
+                        @Override
+                        public void onEvent(int event, String path) {
+                            Log.d(TAG, "android others onEvent");
+                            if (event == FileObserver.CREATE) {
+                                handler.post(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        channel.invokeMethod("onCallback", null);
+                                    }
+                                });
+                            }
+                        }
+                    };
+                }
+            }
+            fileObserver.startWatching();
+            result.success("initialize");
+        } else if (call.method.equals("dispose")) {
+            fileObserver.stopWatching();
+            result.success("dispose");
+        } else {
+            result.notImplemented();
+        }
+    }
 }
