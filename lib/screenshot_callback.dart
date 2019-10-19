@@ -7,17 +7,20 @@ class ScreenshotCallback {
   static const MethodChannel _channel =
       const MethodChannel('screenshot_callback');
 
+  /// functions to execute when callback fired.
   List<VoidCallback> onCallbacks = [];
 
   ScreenshotCallback() {
     initialize();
   }
 
+  /// init screenshot callback plugin.
   Future<void> initialize() async {
     _channel.setMethodCallHandler(_handleMethod);
     await _channel.invokeMethod("initialize");
   }
 
+  /// add void callback.
   void addListener(VoidCallback callback) {
     if (callback == null) throw ("No Callback!");
     onCallbacks.add(callback);
@@ -33,6 +36,7 @@ class ScreenshotCallback {
     }
   }
 
+  /// remove callback listener.
   Future<void> dispose() async {
     await _channel.invokeMethod("dispose");
   }
