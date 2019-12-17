@@ -1,3 +1,12 @@
+## 1.1.0
+- update `permission_handler` to 4.0.0
+- update Gradle, Android Studio plugin versions
+- Bump compileSdkVersion to `29`
+- Enable R8, AndroidX, Jetifier
+- Bump Dart version to `2.7.0`
+- Fixes [#17](https://github.com/flutter-moum/flutter_screenshot_callback/issues/17)
+- Fixes [#18](https://github.com/flutter-moum/flutter_screenshot_callback/issues/18)
+
 ## 1.0.1
 - import permission_handler package.
 
