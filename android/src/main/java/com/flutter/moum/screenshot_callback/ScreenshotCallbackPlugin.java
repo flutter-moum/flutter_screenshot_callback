@@ -14,6 +14,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import java.io.File;
+import java.util.List;
 import java.util.ArrayList;
 
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
@@ -37,7 +38,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
             handler = new Handler(Looper.getMainLooper());
             if (Build.VERSION.SDK_INT >= 29) {
                 Log.d(TAG, "android x");
-                ArrayList<File> files = new ArrayList<File>();
+                List<File> files = new ArrayList<File>();
                 for (Path path : Path.values()) {
                     files.add(new File(path.getPath()));
                 }
