@@ -9,16 +9,23 @@ class ScreenshotCallback {
   static const MethodChannel _channel =
       const MethodChannel('flutter.moum/screenshot_callback');
 
-  /// functions to execute when callback fired.
+  /// Functions to execute when callback fired.
   List<VoidCallback> onCallbacks = [];
 
-  ScreenshotCallback() {
+  /// If `true`, the user will be asked to grant storage permissions when
+  /// callback is added.
+  ///
+  /// Defaults to `true`.
+  bool requestPermissions;
+
+  ScreenshotCallback({ this.requestPermissions }) {
+    requestPermissions ??= true;
     initialize();
   }
 
   /// init screenshot callback plugin.
   Future<void> initialize() async {
-    if (Platform.isAndroid) await checkPermission();
+    if (Platform.isAndroid && requestPermissions) await checkPermission();
     _channel.setMethodCallHandler(_handleMethod);
     await _channel.invokeMethod("initialize");
   }

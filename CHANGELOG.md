@@ -1,4 +1,5 @@
 ## 1.1.0
+- Added optional `requestPermissions` parameter.
 - Update `permission_handler` to `4.0.0`.
 - Update Gradle, Android Studio plugin versions.
 - Bump compileSdkVersion to `29`.
