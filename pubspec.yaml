@@ -1,6 +1,6 @@
 name: screenshot_callback
 description: Flutter plugin that allows you to detect mobile screenshot and execute callback functions on iOS and Android.
-version: 1.0.1
+version: 1.1.0
 authors:
 - Gwangyu-Kim <kwangyu326@gmail.com>
 - minsub0922<minsub0922@naver.com>
@@ -9,12 +9,12 @@ authors:
 homepage: https://github.com/flutter-moum/flutter_screenshot_callback
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  permission_handler: ^3.2.2
+  permission_handler: ^4.0.0
 
 dev_dependencies:
   flutter_test:

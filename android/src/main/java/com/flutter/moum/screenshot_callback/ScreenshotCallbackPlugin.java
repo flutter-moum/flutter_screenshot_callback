@@ -11,9 +11,10 @@ import android.os.FileObserver;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
+//import android.util.Log;
 
 import java.io.File;
+import java.util.List;
 import java.util.ArrayList;
 
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
@@ -31,13 +32,13 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
 
     @Override
     public void onMethodCall(MethodCall call, Result result) {
-        Log.d(TAG, "onMethodCall: ");
+        //Log.d(TAG, "onMethodCall: ");
 
         if (call.method.equals("initialize")) {
             handler = new Handler(Looper.getMainLooper());
             if (Build.VERSION.SDK_INT >= 29) {
-                Log.d(TAG, "android x");
-                ArrayList<File> files = new ArrayList<File>();
+                //Log.d(TAG, "android x");
+                List<File> files = new ArrayList<File>();
                 for (Path path : Path.values()) {
                     files.add(new File(path.getPath()));
                 }
@@ -45,7 +46,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
                 fileObserver = new FileObserver(files, FileObserver.CREATE) {
                     @Override
                     public void onEvent(int event, String path) {
-                        Log.d(TAG, "androidX onEvent");
+                        //Log.d(TAG, "androidX onEvent");
                         if (event == FileObserver.CREATE) {
                             handler.post(new Runnable() {
                                 @Override
@@ -58,13 +59,13 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
                 };
                 fileObserver.startWatching();
             } else {
-                Log.d(TAG, "android others");
+                //Log.d(TAG, "android others");
                 for (Path path : Path.values()) {
-                    Log.d(TAG, "onMethodCall: "+path.getPath());
+                    //Log.d(TAG, "onMethodCall: "+path.getPath());
                     fileObserver = new FileObserver(path.getPath(), FileObserver.CREATE) {
                         @Override
                         public void onEvent(int event, String path) {
-                            Log.d(TAG, "android others onEvent");
+                            //Log.d(TAG, "android others onEvent");
                             if (event == FileObserver.CREATE) {
                                 handler.post(new Runnable() {
                                     @Override
