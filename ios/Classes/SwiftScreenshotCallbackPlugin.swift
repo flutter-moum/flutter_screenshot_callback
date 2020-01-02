@@ -17,7 +17,7 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     if(call.method == "initialize"){
       NotificationCenter.default.addObserver(
-          forName: NSNotification.Name.UIApplicationUserDidTakeScreenshot,
+          forName: UIApplication.userDidTakeScreenshotNotification,
           object: nil,
           queue: .main) { notification in
           if let channel = SwiftScreenshotCallbackPlugin.channel {
