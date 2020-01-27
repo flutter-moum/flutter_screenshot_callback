@@ -3,10 +3,13 @@ import UIKit
 
 public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
   static var channel: FlutterMethodChannel?
+    
+  static var observer: NSObjectProtocol?;
+    
 
   public static func register(with registrar: FlutterPluginRegistrar) {
     channel  = FlutterMethodChannel(name: "flutter.moum/screenshot_callback", binaryMessenger: registrar.messenger())
-
+    observer = nil;
     let instance = SwiftScreenshotCallbackPlugin()
     if let channel = channel {
       registrar.addMethodCallDelegate(instance, channel: channel)
@@ -16,7 +19,11 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     if(call.method == "initialize"){
-      NotificationCenter.default.addObserver(
+        if(SwiftScreenshotCallbackPlugin.observer != nil) {
+            NotificationCenter.default.removeObserver(SwiftScreenshotCallbackPlugin.observer!);
+            SwiftScreenshotCallbackPlugin.observer = nil;
+        }
+        SwiftScreenshotCallbackPlugin.observer = NotificationCenter.default.addObserver(
           forName: UIApplication.userDidTakeScreenshotNotification,
           object: nil,
           queue: .main) { notification in
@@ -28,13 +35,20 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
       }
       result("initialize")
     }else if(call.method == "dispose"){
-      result("dispose")
+        if(SwiftScreenshotCallbackPlugin.observer != nil) {
+            NotificationCenter.default.removeObserver(SwiftScreenshotCallbackPlugin.observer!);
+            SwiftScreenshotCallbackPlugin.observer = nil;
+        }
+        result("dispose")
     }else{
       result("")
     }
   }
     
     deinit {
-        NotificationCenter.default.removeObserver(self)
+        if(SwiftScreenshotCallbackPlugin.observer != nil) {
+            NotificationCenter.default.removeObserver(SwiftScreenshotCallbackPlugin.observer!);
+            SwiftScreenshotCallbackPlugin.observer = nil;
+        }
     }
 }
