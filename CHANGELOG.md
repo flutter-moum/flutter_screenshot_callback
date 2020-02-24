@@ -1,3 +1,6 @@
+## 1.1.1
+- ios: Keep only one single observer
+
 ## 1.1.0
 - Added optional `requestPermissions` parameter.
 - Update `permission_handler` to `4.0.0`.
