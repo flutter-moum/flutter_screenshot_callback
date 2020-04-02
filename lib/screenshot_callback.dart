@@ -10,7 +10,7 @@ class ScreenshotCallback {
       const MethodChannel('flutter.moum/screenshot_callback');
 
   /// Functions to execute when callback fired.
-  List<VoidCallback> onCallbacks = [];
+  List<VoidCallback> onCallbacks = <VoidCallback>[];
 
   /// If `true`, the user will be asked to grant storage permissions when
   /// callback is added.
@@ -18,45 +18,43 @@ class ScreenshotCallback {
   /// Defaults to `true`.
   bool requestPermissions;
 
-  ScreenshotCallback({ this.requestPermissions }) {
+  ScreenshotCallback({this.requestPermissions}) {
     requestPermissions ??= true;
     initialize();
   }
 
-  /// init screenshot callback plugin.
+  /// Initializes screenshot callback plugin.
   Future<void> initialize() async {
-    if (Platform.isAndroid && requestPermissions) await checkPermission();
+    if (Platform.isAndroid && requestPermissions) {
+      await checkPermission();
+    }
     _channel.setMethodCallHandler(_handleMethod);
-    await _channel.invokeMethod("initialize");
+    await _channel.invokeMethod('initialize');
   }
 
-  /// add void callback.
+  /// Add void callback.
   void addListener(VoidCallback callback) {
-    if (callback == null) throw ("No Callback!");
+    assert(callback != null, 'A non-null callback must be provided.');
     onCallbacks.add(callback);
   }
 
   Future<dynamic> _handleMethod(MethodCall call) async {
     switch (call.method) {
       case 'onCallback':
-        for (var callback in onCallbacks) callback();
+        for (final callback in onCallbacks) {
+          callback();
+        }
         break;
       default:
         throw ('method not defined');
     }
   }
 
-  /// remove callback listener.
-  Future<void> dispose() async {
-    await _channel.invokeMethod("dispose");
-  }
+  /// Remove callback listener.
+  Future<void> dispose() async => await _channel.invokeMethod('dispose');
 
-  Future<void> checkPermission() async {
-    PermissionStatus status = await PermissionHandler()
-        .checkPermissionStatus(PermissionGroup.storage);
-
-    if (status != PermissionStatus.granted) {
-      await PermissionHandler().requestPermissions([PermissionGroup.storage]);
-    }
-  }
+  /// Checks if user has granted permissions for storage.
+  ///
+  /// If permission is not granted, it'll be requested.
+  Future<void> checkPermission() async => await Permission.storage.request();
 }
