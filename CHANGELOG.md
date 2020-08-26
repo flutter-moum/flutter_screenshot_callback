@@ -1,3 +1,6 @@
+## 1.1.2
+- Upgrade `permission_handler` version
+
 ## 1.1.1
 - ios: Keep only one single observer
 
