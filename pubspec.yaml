@@ -22,5 +22,8 @@ dev_dependencies:
 
 flutter:
   plugin:
-    androidPackage: com.flutter.moum.screenshot_callback
-    pluginClass: ScreenshotCallbackPlugin
+    android:
+      package: com.flutter.moum.screenshot_callback
+      pluginClass: ScreenshotCallbackPlugin
+    ios:
+      pluginClass: ScreenshotCallbackPlugin
