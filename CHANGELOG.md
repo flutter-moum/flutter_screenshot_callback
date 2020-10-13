@@ -1,3 +1,7 @@
+## 1.1.3
+- Fixes an issue with `pubspec.yaml` keys.
+- Upgrade `permission_handler` version.
+
 ## 1.1.2
 - Upgrade `permission_handler` version
 
