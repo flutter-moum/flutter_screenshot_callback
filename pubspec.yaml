@@ -14,7 +14,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  permission_handler: ^5.0.1
+  permission_handler: ^5.0.1+1
 
 dev_dependencies:
   flutter_test:
@@ -22,8 +22,9 @@ dev_dependencies:
 
 flutter:
   plugin:
-    android:
-      package: com.flutter.moum.screenshot_callback
-      pluginClass: ScreenshotCallbackPlugin
-    ios:
-      pluginClass: ScreenshotCallbackPlugin
+    platforms:
+      android:
+        package: com.flutter.moum.screenshot_callback
+        pluginClass: ScreenshotCallbackPlugin
+      ios:
+        pluginClass: ScreenshotCallbackPlugin
