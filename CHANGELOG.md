@@ -1,6 +1,7 @@
 ## 1.1.3
 - Fixes an issue with `pubspec.yaml` keys.
 - Upgrade `permission_handler` version.
+- Increase the minimum version of Flutter >= 1.10.0
 
 ## 1.1.2
 - Upgrade `permission_handler` version
