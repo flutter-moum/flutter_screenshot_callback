@@ -45,10 +45,10 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
     }
   }
     
-    deinit {
-        if(SwiftScreenshotCallbackPlugin.observer != nil) {
-            NotificationCenter.default.removeObserver(SwiftScreenshotCallbackPlugin.observer!);
-            SwiftScreenshotCallbackPlugin.observer = nil;
-        }
-    }
+  deinit {
+      if(SwiftScreenshotCallbackPlugin.observer != nil) {
+          NotificationCenter.default.removeObserver(SwiftScreenshotCallbackPlugin.observer!);
+          SwiftScreenshotCallbackPlugin.observer = nil;
+      }
+  }
 }

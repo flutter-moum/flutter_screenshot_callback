@@ -1,3 +1,6 @@
+## 1.1.5
+- Remove callback observer when deinit in iOS [#16](https://github.com/flutter-moum/flutter_screenshot_callback/issues/16).
+
 ## 1.1.4
 - Fix iOS Build Error [#31](https://github.com/flutter-moum/flutter_screenshot_callback/issues/31).
 
