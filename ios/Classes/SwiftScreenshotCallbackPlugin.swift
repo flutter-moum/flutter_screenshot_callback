@@ -24,7 +24,7 @@ public class SwiftScreenshotCallbackPlugin: NSObject, FlutterPlugin {
             SwiftScreenshotCallbackPlugin.observer = nil;
         }
         SwiftScreenshotCallbackPlugin.observer = NotificationCenter.default.addObserver(
-          forName: UIApplication.userDidTakeScreenshotNotification,
+          forName: NSNotification.Name.UIApplicationUserDidTakeScreenshot,
           object: nil,
           queue: .main) { notification in
           if let channel = SwiftScreenshotCallbackPlugin.channel {
