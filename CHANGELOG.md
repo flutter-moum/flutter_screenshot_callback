@@ -1,3 +1,6 @@
+## 1.1.4
+- Fix iOS Build Error [#31](https://github.com/flutter-moum/flutter_screenshot_callback/issues/31).
+
 ## 1.1.3
 - Fixes an issue with `pubspec.yaml` keys.
 - Upgrade `permission_handler` version.
