@@ -9,7 +9,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  ScreenshotCallback screenshotCallback;
+  late ScreenshotCallback screenshotCallback;
 
   String text = "Ready..";
 
@@ -22,7 +22,6 @@ class _MyAppState extends State<MyApp> {
 
   void init() async {
     await initScreenshotCallback();
-
   }
 
   //It must be created after permission is granted.
