@@ -1,6 +1,6 @@
 PODS:
   - Flutter (1.0.0)
-  - "permission_handler (5.0.1+1)":
+  - "permission_handler (5.1.0+2)":
     - Flutter
   - screenshot_callback (0.0.1):
     - Flutter
@@ -20,7 +20,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
-  permission_handler: eac8e15b4a1a3fba55b761d19f3f4e6b005d15b6
+  permission_handler: ccb20a9fad0ee9b1314a52b70b76b473c5f8dab0
   screenshot_callback: dcbd6a3d715947a44ed20c114172bcdfcd577e42
 
 PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0
