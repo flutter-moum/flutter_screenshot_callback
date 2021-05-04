@@ -1,87 +1,70 @@
 package com.flutter.moum.screenshot_callback;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
-import android.os.Build;
-import android.os.FileObserver;
-
-import android.os.Handler;
-import android.os.Looper;
 //import android.util.Log;
 
-import java.io.File;
-import java.util.List;
-import java.util.ArrayList;
-
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
-    private static MethodChannel channel;
+    ScreenshotCallbackPlugin(Context context) {
+        _context = context;
+    }
 
-    private Handler handler;
-    private FileObserver fileObserver;
-    private String TAG = "tag";
+    private static MethodChannel _channel;
+    private static final String _tag = "screenshot_callback";
 
+    private final Context _context;
+
+    private Handler _handler;
+    private ScreenshotDetector _detector;
+    private String _lastScreenshotName;
 
     public static void registerWith(Registrar registrar) {
-        channel = new MethodChannel(registrar.messenger(), "flutter.moum/screenshot_callback");
-        channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
+        _channel = new MethodChannel(registrar.messenger(), "flutter.moum/screenshot_callback");
+        _channel.setMethodCallHandler(new ScreenshotCallbackPlugin(registrar.context()));
     }
 
     @Override
     public void onMethodCall(MethodCall call, Result result) {
-        //Log.d(TAG, "onMethodCall: ");
-
         if (call.method.equals("initialize")) {
-            handler = new Handler(Looper.getMainLooper());
-            if (Build.VERSION.SDK_INT >= 29) {
-                //Log.d(TAG, "android x");
-                List<File> files = new ArrayList<File>();
-                for (Path path : Path.values()) {
-                    files.add(new File(path.getPath()));
-                }
+            _handler = new Handler(Looper.getMainLooper());
 
-                fileObserver = new FileObserver(files, FileObserver.CREATE) {
-                    @Override
-                    public void onEvent(int event, String path) {
-                        //Log.d(TAG, "androidX onEvent");
-                        if (event == FileObserver.CREATE) {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    channel.invokeMethod("onCallback", null);
-                                }
-                            });
-                        }
-                    }
-                };
-                fileObserver.startWatching();
-            } else {
-                //Log.d(TAG, "android others");
-                for (Path path : Path.values()) {
-                    //Log.d(TAG, "onMethodCall: "+path.getPath());
-                    fileObserver = new FileObserver(path.getPath(), FileObserver.CREATE) {
-                        @Override
-                        public void onEvent(int event, String path) {
-                            //Log.d(TAG, "android others onEvent");
-                            if (event == FileObserver.CREATE) {
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        channel.invokeMethod("onCallback", null);
-                                    }
-                                });
+            _detector = new ScreenshotDetector(_context, new Function1<String, Unit>() {
+                @Override
+                public Unit invoke(String screenshotName) {
+//                    Log.d(_tag, "onScreenshotDetected: " + screenshotName);
+
+                    if (!screenshotName.equals(_lastScreenshotName)) {
+                        _lastScreenshotName = screenshotName;
+                        _handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+//                                Log.d(_tag, "onCallback: ");
+                                _channel.invokeMethod("onCallback", null);
                             }
-                        }
-                    };
-                    fileObserver.startWatching();
+                        });
+                    }
+
+                    return null;
                 }
-            }
+            });
+            _detector.start();
+
             result.success("initialize");
         } else if (call.method.equals("dispose")) {
-            fileObserver.stopWatching();
+            _detector.stop();
+            _detector = null;
+            _lastScreenshotName = null;
+
             result.success("dispose");
         } else {
             result.notImplemented();
