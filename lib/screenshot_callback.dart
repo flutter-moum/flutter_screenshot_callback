@@ -16,7 +16,7 @@ class ScreenshotCallback {
   /// callback is added.
   ///
   /// Defaults to `true`.
-  bool requestPermissions;
+   bool? requestPermissions;
 
   ScreenshotCallback({this.requestPermissions}) {
     requestPermissions ??= true;
@@ -25,7 +25,7 @@ class ScreenshotCallback {
 
   /// Initializes screenshot callback plugin.
   Future<void> initialize() async {
-    if (Platform.isAndroid && requestPermissions) {
+    if (Platform.isAndroid && requestPermissions!) {
       await checkPermission();
     }
     _channel.setMethodCallHandler(_handleMethod);
