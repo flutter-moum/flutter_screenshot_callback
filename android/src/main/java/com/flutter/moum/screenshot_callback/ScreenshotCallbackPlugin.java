@@ -8,27 +8,41 @@ import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
-import io.flutter.plugin.common.PluginRegistry.Registrar;
+import io.flutter.embedding.engine.plugins.FlutterPlugin;
+import io.flutter.plugin.common.BinaryMessenger;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import kotlin.Unit;
 import kotlin.jvm.functions.Function1;
 
-public class ScreenshotCallbackPlugin implements MethodCallHandler {
-    ScreenshotCallbackPlugin(Context context) {
-        this.context = context;
-    }
-
+public class ScreenshotCallbackPlugin implements MethodCallHandler, FlutterPlugin {
     private static MethodChannel channel;
     private static final String ttag = "screenshot_callback";
 
-    private final Context context;
+    private Context applicationContext;
 
     private Handler handler;
     private ScreenshotDetector detector;
     private String lastScreenshotName;
 
-    public static void registerWith(Registrar registrar) {
-        channel = new MethodChannel(registrar.messenger(), "flutter.moum/screenshot_callback");
-        channel.setMethodCallHandler(new ScreenshotCallbackPlugin(registrar.context()));
+    @Override
+    public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
+        onAttachedToEngine(binding.getApplicationContext(), binding.getBinaryMessenger());
+    }
+
+    private void onAttachedToEngine(Context applicationContext, BinaryMessenger messenger) {
+        this.applicationContext = applicationContext;
+        channel = new MethodChannel(messenger, "flutter.moum/screenshot_callback");
+        channel.setMethodCallHandler(this);
+    }
+
+    @Override
+    public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+        applicationContext = null;
+        channel.setMethodCallHandler(null);
+        channel = null;
     }
 
     @Override
@@ -37,7 +51,7 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
         if (call.method.equals("initialize")) {
             handler = new Handler(Looper.getMainLooper());
 
-            detector = new ScreenshotDetector(context, new Function1<String, Unit>() {
+            detector = new ScreenshotDetector(applicationContext, new Function1<String, Unit>() {
                 @Override
                 public Unit invoke(String screenshotName) {
                     if (!screenshotName.equals(lastScreenshotName)) {
