@@ -1,30 +1,34 @@
 package com.flutter.moum.screenshot_callback;
 
+import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
+
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugin.common.MethodChannel;
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
-
-import android.os.Build;
-import android.os.FileObserver;
-
-import android.os.Handler;
-import android.os.Looper;
-
-import java.io.File;
-import java.util.List;
-import java.util.ArrayList;
+import kotlin.Unit;
+import kotlin.jvm.functions.Function1;
 
 public class ScreenshotCallbackPlugin implements MethodCallHandler {
+    ScreenshotCallbackPlugin(Context context) {
+        this.context = context;
+    }
+
     private static MethodChannel channel;
+    private static final String ttag = "screenshot_callback";
+
+    private final Context context;
 
     private Handler handler;
-    private FileObserver fileObserver;
+    private ScreenshotDetector detector;
+    private String lastScreenshotName;
 
     public static void registerWith(Registrar registrar) {
         channel = new MethodChannel(registrar.messenger(), "flutter.moum/screenshot_callback");
-        channel.setMethodCallHandler(new ScreenshotCallbackPlugin());
+        channel.setMethodCallHandler(new ScreenshotCallbackPlugin(registrar.context()));
     }
 
     @Override
@@ -32,47 +36,30 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler {
 
         if (call.method.equals("initialize")) {
             handler = new Handler(Looper.getMainLooper());
-            if (Build.VERSION.SDK_INT >= 29) {
-                List<File> files = new ArrayList<File>();
-                for (Path path : Path.values()) {
-                    files.add(new File(path.getPath()));
-                }
 
-                fileObserver = new FileObserver(files, FileObserver.CREATE) {
-                    @Override
-                    public void onEvent(int event, String path) {
-                        if (event == FileObserver.CREATE) {
-                            handler.post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    channel.invokeMethod("onCallback", null);
-                                }
-                            });
-                        }
-                    }
-                };
-                fileObserver.startWatching();
-            } else {
-                for (Path path : Path.values()) {
-                    fileObserver = new FileObserver(path.getPath(), FileObserver.CREATE) {
-                        @Override
-                        public void onEvent(int event, String path) {
-                            if (event == FileObserver.CREATE) {
-                                handler.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        channel.invokeMethod("onCallback", null);
-                                    }
-                                });
+            detector = new ScreenshotDetector(context, new Function1<String, Unit>() {
+                @Override
+                public Unit invoke(String screenshotName) {
+                    if (!screenshotName.equals(lastScreenshotName)) {
+                        lastScreenshotName = screenshotName;
+                        handler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                channel.invokeMethod("onCallback", null);
                             }
-                        }
-                    };
-                    fileObserver.startWatching();
+                        });
+                    }
+                    return null;
                 }
-            }
+            });
+            detector.start();
+
             result.success("initialize");
         } else if (call.method.equals("dispose")) {
-            fileObserver.stopWatching();
+            detector.stop();
+            detector = null;
+            lastScreenshotName = null;
+
             result.success("dispose");
         } else {
             result.notImplemented();
