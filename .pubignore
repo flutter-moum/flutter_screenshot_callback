@@ -1,0 +1,10 @@
+android/.project
+android/.settings/org.eclipse.buildship.core.prefs
+example/android/.project
+example/android/.settings/org.eclipse.buildship.core.prefs
+example/android/app/.project
+example/android/app/.settings/org.eclipse.buildship.core.prefs
+example/ios/Podfile.lock
+example/ios/Runner.xcodeproj/project.pbxproj
+example/pubspec.lock
+flutter_screenshot_callback.iml
