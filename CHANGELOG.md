@@ -1,3 +1,7 @@
+## 2.0.1
+
+fix: fix android core version in plugin gradle. [#58](https://github.com/flutter-moum/flutter_screenshot_callback/pull/58)
+
 ## 2.0.0
 
 Thanks you for leaving issues and PR.
