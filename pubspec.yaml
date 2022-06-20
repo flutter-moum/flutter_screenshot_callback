@@ -10,7 +10,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  permission_handler: ^8.1.2
 
 dev_dependencies:
   flutter_test:
