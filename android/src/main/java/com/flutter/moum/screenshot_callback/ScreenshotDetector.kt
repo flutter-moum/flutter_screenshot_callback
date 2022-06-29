@@ -33,10 +33,14 @@ class ScreenshotDetector(private val context: Context,
     }
 
     private fun queryScreenshots(uri: Uri): List<String> {
-        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            queryRelativeDataColumn(uri)
-        } else {
-            queryDataColumn(uri)
+        return try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                queryRelativeDataColumn(uri)
+            } else {
+                queryDataColumn(uri)
+            }
+        }  catch (e:Exception){
+            listOf()
         }
     }
 
