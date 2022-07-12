@@ -1,3 +1,7 @@
+## 2.0.2
+
+fix: Prevent crash if image(s) removed from gallery on some android devices. [#60](https://github.com/flutter-moum/flutter_screenshot_callback/pull/60)
+
 ## 2.0.1
 
 fix: fix android core version in plugin gradle. [#58](https://github.com/flutter-moum/flutter_screenshot_callback/pull/58)
