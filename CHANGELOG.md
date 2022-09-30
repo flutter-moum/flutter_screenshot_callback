@@ -1,3 +1,7 @@
+## 2.0.3
+
+fix: Remove permission handler pacakge. You need to include this package in order to use on android. [#60](https://github.com/flutter-moum/flutter_screenshot_callback/pull/59)
+
 ## 2.0.2
 
 fix: Prevent crash if image(s) removed from gallery on some android devices. [#60](https://github.com/flutter-moum/flutter_screenshot_callback/pull/60)
