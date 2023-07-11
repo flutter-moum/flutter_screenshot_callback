@@ -1,3 +1,12 @@
+## 3.0.0
+
+### 🛑️ Breaking Changes
+
+- Updated minimum supported SDK version to Dart 3.0
+
+fix: increase Kotlin version used to 1.5.20 [#74](https://github.com/flutter-moum/flutter_screenshot_callback/pull/74)
+fix: null safety method channel [#71](https://github.com/flutter-moum/flutter_screenshot_callback/pull/71)]
+
 ## 2.0.3
 
 fix: Remove permission handler pacakge. You need to include this package in order to use on android. [#60](https://github.com/flutter-moum/flutter_screenshot_callback/pull/59)

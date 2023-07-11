@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 class ScreenshotCallback {
