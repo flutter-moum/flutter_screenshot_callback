@@ -41,8 +41,10 @@ public class ScreenshotCallbackPlugin implements MethodCallHandler, FlutterPlugi
     @Override
     public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
         applicationContext = null;
-        channel.setMethodCallHandler(null);
-        channel = null;
+        if (channel != null) {
+            channel.setMethodCallHandler(null);
+            channel = null;
+        }
     }
 
     @Override
