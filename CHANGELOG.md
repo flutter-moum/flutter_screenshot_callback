@@ -1,3 +1,7 @@
+## 3.0.1
+
+fix: null safety method channel [#71](https://github.com/flutter-moum/flutter_screenshot_callback/pull/71)]
+
 ## 3.0.0
 
 ### 🛑️ Breaking Changes
@@ -5,7 +9,6 @@
 - Updated minimum supported SDK version to Dart 3.0
 
 fix: increase Kotlin version used to 1.5.20 [#74](https://github.com/flutter-moum/flutter_screenshot_callback/pull/74)
-fix: null safety method channel [#71](https://github.com/flutter-moum/flutter_screenshot_callback/pull/71)]
 
 ## 2.0.3
 
