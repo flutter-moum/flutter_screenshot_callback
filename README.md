@@ -25,6 +25,23 @@
 
 To use this plugin, follow the [**plugin installation instructions**](https://pub.dev/packages/screenshot_callback#-installing-tab-).
 
+### Android
+
+Android detects external storage to determine if a screenshot has occurred. So you need permission to media images (Android 12 or later) or external storage
+
+Specify your API key in the application manifest
+`android/app/src/main/AndroidManifest.xml`:
+
+```xml
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+    android:maxSdkVersion="32" />
+<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+```
+
+### iOS
+
+No action is required. Screenshots can be detected by the plug-in itself.
+
 ### Use the plugin
 
 Add the following import to your Dart code:
